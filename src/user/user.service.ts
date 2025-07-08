@@ -89,4 +89,7 @@ export class UserService {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
   }
+  async findByEmailWithPassword(email: string): Promise<UserDocument | null> {
+    return await this.userModel.findOne({ email }).select('+password').exec();
+  }
 }
