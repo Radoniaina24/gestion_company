@@ -10,7 +10,6 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
-
   async validateUser(loginDto: LoginDto) {
     const user = await this.userService.findByEmailWithPassword(loginDto.email);
     if (!user) throw new UnauthorizedException('Identifiants invalides');

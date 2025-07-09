@@ -9,15 +9,18 @@ import {
   HttpStatus,
   Res,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
   @Post()
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
     try {
@@ -32,6 +35,9 @@ export class UserController {
       });
     }
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'manager')
   @Get()
   async findAll(
     @Query('page') page: number = 1,
@@ -49,6 +55,9 @@ export class UserController {
       });
     }
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'manager')
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() res: Response) {
     try {
@@ -63,6 +72,8 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'manager')
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -82,6 +93,8 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'manager')
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
     try {
