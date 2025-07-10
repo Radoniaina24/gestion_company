@@ -1,0 +1,17 @@
+{
+ 
+  "email": "faniry.ratsimba@example.com",
+  "password": "Manager456!",
+  "role": "manager"
+}
+{
+  "email": "tojo.rakotomalala@example.com",
+  "password": "TojoPass789",
+  "role": "employee"
+}
+{
+  "email": "miora.randrianasolo@example.com",
+  "password": "Admin1234",
+  "role": "admin"
+}
+

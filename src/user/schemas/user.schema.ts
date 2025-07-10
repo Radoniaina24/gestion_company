@@ -9,22 +9,6 @@ export type UserDocument = User & Document;
 export class User {
   @Prop({
     type: String,
-    required: [true, 'Le nom est requis'],
-    trim: true,
-    minlength: [2, 'Le nom doit contenir au moins 2 caractères'],
-  })
-  lastName: string;
-
-  @Prop({
-    type: String,
-    required: [true, 'Le prénom est requis'],
-    trim: true,
-    minlength: [2, 'Le prénom doit contenir au moins 2 caractères'],
-  })
-  firstName: string;
-
-  @Prop({
-    type: String,
     required: [true, "L'email est requis"],
     unique: true,
     trim: true,

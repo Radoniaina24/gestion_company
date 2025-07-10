@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  HttpStatus,
+  HttpCode,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Response } from 'express';
@@ -8,11 +15,21 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @HttpCode(200)
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
     try {
-      const user = await this.authService.login(loginDto);
+      const { access_token, user } = await this.authService.login(loginDto);
+
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
       res.status(HttpStatus.OK).json({
         user,
+        // access_token,
       });
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
@@ -20,5 +37,12 @@ export class AuthController {
       });
     }
     return;
+  }
+
+  @Post('logout')
+  @HttpCode(200)
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    return { message: 'Déconnexion réussie' };
   }
 }

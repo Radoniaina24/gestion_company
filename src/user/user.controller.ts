@@ -35,7 +35,6 @@ export class UserController {
       });
     }
   }
-
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'manager')
   @Get()
