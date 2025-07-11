@@ -7,7 +7,6 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { UserIdMiddleware } from './middlewares/user-id.middleware';
-import { EmploymentInfoModule } from './employment-info/employment-info.module';
 
 @Module({
   controllers: [AppController],
@@ -18,7 +17,6 @@ import { EmploymentInfoModule } from './employment-info/employment-info.module';
     UserModule,
     AuthModule,
     UserProfileModule,
-    EmploymentInfoModule,
   ],
 })
 export class AppModule {
