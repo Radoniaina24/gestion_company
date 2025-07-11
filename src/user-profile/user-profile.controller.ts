@@ -7,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   Req,
   Res,
   UseGuards,
@@ -94,17 +93,40 @@ export class UserProfileController {
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('me')
-  getOwnProfile(@Req() req: Request) {
+  async getOwnProfile(@Req() req: Request, @Res() res: Response) {
     const userId = req['userId'];
-    return this.userService.getByUserId(userId);
+    try {
+      const me = await this.userService.getByUserId(userId);
+      res.status(HttpStatus.OK).json({
+        message: 'succès',
+        me,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+      });
+    }
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'manager', 'employee')
   @Patch('update/me')
-  updateOwnProfile(@Req() req: Request, @Body() dto: UpdateUserProfileDto) {
+  async updateOwnProfile(
+    @Req() req: Request,
+    @Body() dto: UpdateUserProfileDto,
+    @Res() res: Response,
+  ) {
     const userId = req['userId'];
-    console.log(userId);
-    return this.userService.updateByUserId(userId, dto);
+    try {
+      const profil = await this.userService.updateByUserId(userId, dto);
+      res.status(HttpStatus.OK).json({
+        message: 'Profil mise à jour avec succès',
+        profil,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+      });
+    }
   }
 }

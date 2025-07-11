@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { UserIdMiddleware } from './middlewares/user-id.middleware';
+import { EmploymentInfoModule } from './employment-info/employment-info.module';
 
 @Module({
   controllers: [AppController],
@@ -17,6 +18,7 @@ import { UserIdMiddleware } from './middlewares/user-id.middleware';
     UserModule,
     AuthModule,
     UserProfileModule,
+    EmploymentInfoModule,
   ],
 })
 export class AppModule {
@@ -26,6 +28,7 @@ export class AppModule {
       .forRoutes(
         { path: 'user-profiles/me', method: RequestMethod.ALL },
         { path: 'user-profiles', method: RequestMethod.ALL },
+        { path: 'user-profiles/update/me', method: RequestMethod.PATCH },
       );
   }
 }

@@ -54,7 +54,6 @@ export class UserProfileService {
     if (!result) throw new NotFoundException('Suppression échouée');
     return { message: 'Supprimé avec succès' };
   }
-
   async getByUserId(userId: string) {
     const profile = await this.userProfileModel
       .findOne({ user: userId })
@@ -62,13 +61,13 @@ export class UserProfileService {
     if (!profile) throw new NotFoundException('Profil non trouvé');
     return profile;
   }
-
   async updateByUserId(userId: string, dto: UpdateUserProfileDto) {
     const updated = await this.userProfileModel.findOneAndUpdate(
       { user: userId },
       dto,
       { new: true },
     );
+    //console.log(updated);
     if (!updated)
       throw new NotFoundException('Impossible de mettre à jour le profil');
     return updated;
