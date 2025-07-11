@@ -20,9 +20,9 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 
 @Controller('user-profiles')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UserProfileController {
   constructor(private readonly userService: UserProfileService) {}
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'manager', 'employee')
   @Post()
   async create(
@@ -43,7 +43,7 @@ export class UserProfileController {
       });
     }
   }
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Roles('admin', 'manager')
   @Get()
   async findAll(@Res() res: Response) {
@@ -91,7 +91,6 @@ export class UserProfileController {
       });
     }
   }
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('me')
   async getOwnProfile(@Req() req: Request, @Res() res: Response) {
     const userId = req['userId'];
@@ -108,7 +107,6 @@ export class UserProfileController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'manager', 'employee')
   @Patch('update/me')
   async updateOwnProfile(
