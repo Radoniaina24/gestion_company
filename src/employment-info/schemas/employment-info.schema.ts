@@ -14,9 +14,6 @@ export class EmploymentInfo {
   department: string;
 
   @Prop({ required: true })
-  managerName: string;
-
-  @Prop({ required: true })
   hireDate: Date;
 
   @Prop({

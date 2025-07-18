@@ -29,13 +29,13 @@ export class UserIdMiddleware implements NestMiddleware {
     }
     try {
       const decoded = jwt.verify(token, secret) as AuthPayload;
-
-      if (!decoded.sub || !decoded.role) {
+      // console.log(decoded);
+      if (!decoded.sub || !decoded.roles) {
         throw new UnauthorizedException('Payload JWT invalide');
       }
 
       req['userId'] = decoded.sub;
-      req['userRole'] = decoded.role;
+      req['userRole'] = decoded.roles;
 
       next();
     } catch (err) {

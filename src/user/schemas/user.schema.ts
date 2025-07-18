@@ -9,6 +9,20 @@ export type UserDocument = User & Document;
 export class User {
   @Prop({
     type: String,
+    required: [true, 'Le prénom est requis'],
+    trim: true,
+  })
+  firstName: string;
+
+  @Prop({
+    type: String,
+    required: [true, 'Le nom est requis'],
+    trim: true,
+  })
+  lastName: string;
+
+  @Prop({
+    type: String,
     required: [true, "L'email est requis"],
     unique: true,
     trim: true,
@@ -20,19 +34,22 @@ export class User {
     type: String,
     required: [true, 'Le mot de passe est requis'],
     minlength: [6, 'Le mot de passe doit contenir au moins 6 caractères'],
-    select: false, // ne pas renvoyer le mot de passe par défaut
+    select: false, // Ne pas renvoyer le mot de passe par défaut
   })
   password: string;
 
   @Prop({
-    type: String,
+    type: [String],
     enum: ['manager', 'admin', 'employee'],
     required: true,
+    default: ['employee'],
   })
-  role: 'manager' | 'admin' | 'employee';
+  roles: ('manager' | 'admin' | 'employee')[];
 }
+
 export const UserSchema = SchemaFactory.createForClass(User);
 
+// Middleware pour hacher le mot de passe avant la sauvegarde
 UserSchema.pre<UserDocument>('save', async function (next) {
   if (!this.isModified('password')) return next();
 

@@ -10,10 +10,6 @@ export class CreateEmploymentInfoDto {
   department: string;
 
   @IsNotEmpty()
-  @IsString()
-  managerName: string;
-
-  @IsNotEmpty()
   @IsDateString()
   hireDate: Date;
 

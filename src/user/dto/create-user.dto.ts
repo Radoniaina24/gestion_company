@@ -1,6 +1,22 @@
-import { IsEmail, IsNotEmpty, MinLength, IsEnum } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  MinLength,
+  IsEnum,
+  IsArray,
+  ArrayNotEmpty,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto {
+  @IsNotEmpty({ message: 'Le prénom est requis' })
+  @IsString({ message: 'Le prénom doit être une chaîne de caractères' })
+  firstName: string;
+
+  @IsNotEmpty({ message: 'Le nom est requis' })
+  @IsString({ message: 'Le nom doit être une chaîne de caractères' })
+  lastName: string;
+
   @IsEmail({}, { message: 'Email invalide' })
   email: string;
 
@@ -10,6 +26,11 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsEnum(['manager', 'admin', 'employee'], { message: 'Rôle invalide' })
-  role: 'manager' | 'admin' | 'employee';
+  @IsArray({ message: 'Le rôle doit être un tableau' })
+  @ArrayNotEmpty({ message: 'Le tableau de rôles ne doit pas être vide' })
+  @IsEnum(['manager', 'admin', 'employee'], {
+    each: true,
+    message: 'Rôle invalide',
+  })
+  roles: ('manager' | 'admin' | 'employee')[];
 }
