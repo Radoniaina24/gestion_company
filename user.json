@@ -2,22 +2,141 @@
   {
     "email": "faniry.ratsimba@example.com",
     "password": "Manager456!",
-    "role": "manager",
+    "roles": ["manager", "employee"],
     "firstName": "Faniry",
     "lastName": "Ratsimba"
   },
   {
-    "email": "tojo.rakotomalala@example.com",
-    "password": "TojoPass789",
-    "role": "employee",
-    "firstName": "Tojo",
+    "email": "rado.andrianarisoa@example.com",
+    "password": "Manager456!",
+    "roles": ["admin"],
+    "firstName": "Radoniaina",
+    "lastName": "Andrianarisoa"
+  },
+  {
+    "email": "tiana.rajaonarison@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Tiana",
+    "lastName": "Rajaonarison"
+  },
+  {
+    "email": "luc.asong@example.com",
+    "password": "Manager456!",
+    "roles": ["manager"],
+    "firstName": "Luc",
+    "lastName": "Asong"
+  },
+  {
+    "email": "mary.randria@example.com",
+    "password": "Manager456!",
+    "roles": ["employee", "manager"],
+    "firstName": "Mary",
+    "lastName": "Randria"
+  },
+  {
+    "email": "jonas.rakotoarisoa@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Jonas",
+    "lastName": "Rakotoarisoa"
+  },
+  {
+    "email": "lila.rasolo@example.com",
+    "password": "Manager456!",
+    "roles": ["admin", "employee"],
+    "firstName": "Lila",
+    "lastName": "Rasolo"
+  },
+  {
+    "email": "henry.andrianina@example.com",
+    "password": "Manager456!",
+    "roles": ["manager", "employee"],
+    "firstName": "Henry",
+    "lastName": "Andrianina"
+  },
+  {
+    "email": "julie.rakotomanga@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Julie",
+    "lastName": "Rakotomanga"
+  },
+  {
+    "email": "paul.randriamanana@example.com",
+    "password": "Manager456!",
+    "roles": ["manager"],
+    "firstName": "Paul",
+    "lastName": "Randriamanana"
+  },
+  {
+    "email": "ana.rakotomalala@example.com",
+    "password": "Manager456!",
+    "roles": ["admin"],
+    "firstName": "Ana",
     "lastName": "Rakotomalala"
   },
   {
-    "email": "miora.randrianasolo@example.com",
-    "password": "Admin1234",
-    "role": "admin",
-    "firstName": "Miora",
-    "lastName": "Randrianasolo"
+    "email": "dina.rajaonary@example.com",
+    "password": "Manager456!",
+    "roles": ["employee", "manager"],
+    "firstName": "Dina",
+    "lastName": "Rajaonary"
+  },
+  {
+    "email": "michael.randria@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Michael",
+    "lastName": "Randria"
+  },
+  {
+    "email": "sarah.rabemananjara@example.com",
+    "password": "Manager456!",
+    "roles": ["manager"],
+    "firstName": "Sarah",
+    "lastName": "Rabemananjara"
+  },
+  {
+    "email": "kevin.ramaharijaona@example.com",
+    "password": "Manager456!",
+    "roles": ["employee", "manager"],
+    "firstName": "Kevin",
+    "lastName": "Ramaharijaona"
+  },
+  {
+    "email": "emilie.rabearivelo@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Emilie",
+    "lastName": "Rabearivelo"
+  },
+  {
+    "email": "hery.rakotobe@example.com",
+    "password": "Manager456!",
+    "roles": ["admin"],
+    "firstName": "Hery",
+    "lastName": "Rakotobe"
+  },
+  {
+    "email": "marie.rabe@example.com",
+    "password": "Manager456!",
+    "roles": ["manager"],
+    "firstName": "Marie",
+    "lastName": "Rabe"
+  },
+  {
+    "email": "antoine.rakoto@example.com",
+    "password": "Manager456!",
+    "roles": ["employee"],
+    "firstName": "Antoine",
+    "lastName": "Rakoto"
+  },
+  {
+    "email": "lisa.ravalisoa@example.com",
+    "password": "Manager456!",
+    "roles": ["employee", "manager"],
+    "firstName": "Lisa",
+    "lastName": "Ravalisoa"
   }
 ]

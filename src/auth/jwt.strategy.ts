@@ -26,13 +26,21 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return { userId: payload.sub, email: payload.email, roles: payload.roles };
   }
 
+  // private static extractJWT(req: Request): string | null {
+  //   if (
+  //     req.cookies &&
+  //     'access_token' in req.cookies &&
+  //     req.cookies.user_token > 0
+  //   ) {
+  //     return req.cookies.user_token;
+  //   }
+  //   return null;
+  // }
+
   private static extractJWT(req: Request): string | null {
-    if (
-      req.cookies &&
-      'user_token' in req.cookies &&
-      req.cookies.user_token > 0
-    ) {
-      return req.cookies.user_token;
+    // console.log('Cookies reçus :', req.cookies);
+    if (req.cookies && req.cookies.access_token) {
+      return req.cookies.access_token;
     }
     return null;
   }
