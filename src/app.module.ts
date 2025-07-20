@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { UserIdMiddleware } from './middlewares/user-id.middleware';
 import { EmploymentInfoModule } from './employment-info/employment-info.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   controllers: [AppController],
@@ -19,6 +20,7 @@ import { EmploymentInfoModule } from './employment-info/employment-info.module';
     AuthModule,
     UserProfileModule,
     EmploymentInfoModule,
+    TaskModule,
   ],
 })
 export class AppModule {
@@ -30,6 +32,8 @@ export class AppModule {
         { path: 'user-profiles', method: RequestMethod.ALL },
         { path: 'user-profiles/update/me', method: RequestMethod.PATCH },
         { path: 'employment-info/me', method: RequestMethod.ALL },
+        { path: 'tasks', method: RequestMethod.ALL },
+        { path: 'tasks/:id', method: RequestMethod.ALL },
       );
   }
 }
