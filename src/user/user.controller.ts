@@ -39,12 +39,19 @@ export class UserController {
   @Roles('admin', 'manager')
   @Get()
   async findAll(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
     @Res() res: Response,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('search') search = '',
+    @Query('roles') roles?: string,
   ) {
     try {
-      const users = await this.userService.findAll(Number(page), Number(limit));
+      const users = await this.userService.findAll({
+        page: Number(page),
+        limit: Number(limit),
+        search,
+        roles: roles?.split(','),
+      });
       res.status(HttpStatus.OK).json({
         users,
       });

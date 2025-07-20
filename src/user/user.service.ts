@@ -10,6 +10,26 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 
+interface FindAllUsersOptions {
+  page?: number;
+  limit?: number;
+  search?: string;
+  roles?: string[];
+  isActive?: boolean;
+}
+
+interface PaginatedUsersResult {
+  data: User[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -26,34 +46,53 @@ export class UserService {
     const user = new this.userModel(createUserDto);
     return user.save();
   }
-
   async findAll(
-    page = 1,
-    limit = 10,
-  ): Promise<{
-    data: User[];
-    meta: {
-      total: number;
-      page: number;
-      limit: number;
-      pages: number;
-    };
-  }> {
-    const skip = (page - 1) * limit;
+    options: FindAllUsersOptions = {},
+  ): Promise<PaginatedUsersResult> {
+    const { page = 1, limit = 10, search = '', roles } = options;
+    console.log(roles);
+    const validatedPage = Math.max(1, page);
+    const validatedLimit = Math.min(Math.max(1, limit), 100);
+    const skip = (validatedPage - 1) * validatedLimit;
 
+    const query: any = {};
+
+    if (search) {
+      const searchRegex = new RegExp(search, 'i');
+      query.$or = [
+        { firstName: searchRegex },
+        { lastName: searchRegex },
+        { email: searchRegex },
+      ];
+    }
+
+    if (Array.isArray(roles) && roles.length > 0) {
+      query.roles = { $in: roles };
+    }
+
+    // Exécution en parallèle
     const [data, total] = await Promise.all([
-      this.userModel.find().select('-password').skip(skip).limit(limit).exec(),
-
-      this.userModel.countDocuments(),
+      this.userModel
+        .find(query)
+        .select('-password')
+        .sort({ createdAt: -1 }) // Tri par date de création décroissante
+        .skip(skip)
+        .limit(validatedLimit)
+        .exec(),
+      this.userModel.countDocuments(query).exec(),
     ]);
+
+    const totalPages = Math.ceil(total / validatedLimit);
 
     return {
       data,
       meta: {
         total,
-        page,
-        limit,
-        pages: Math.ceil(total / limit),
+        page: validatedPage,
+        limit: validatedLimit,
+        totalPages,
+        hasNextPage: validatedPage < totalPages,
+        hasPreviousPage: validatedPage > 1,
       },
     };
   }
