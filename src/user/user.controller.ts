@@ -61,7 +61,21 @@ export class UserController {
       });
     }
   }
-
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'manager', 'employee')
+  @Get('/tasks')
+  async findAllUserFor(@Res() res: Response) {
+    try {
+      const users = await this.userService.findAllUserForTasks();
+      res.status(HttpStatus.OK).json({
+        users,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+      });
+    }
+  }
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'manager')
   @Get(':id')

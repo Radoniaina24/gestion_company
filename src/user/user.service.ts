@@ -17,7 +17,13 @@ interface FindAllUsersOptions {
   roles?: string[];
   isActive?: boolean;
 }
-
+interface UserForTaskDto {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  roles: string[];
+}
 interface PaginatedUsersResult {
   data: User[];
   meta: {
@@ -95,6 +101,23 @@ export class UserService {
         hasPreviousPage: validatedPage > 1,
       },
     };
+  }
+
+  async findAllUserForTasks(): Promise<User[]> {
+    const users = await this.userModel
+      .find(
+        {},
+        {
+          firstName: 1,
+          lastName: 1,
+        },
+      )
+      .select('-password')
+      .exec();
+    if (!users) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+    return users;
   }
 
   async findOne(id: string): Promise<User> {
