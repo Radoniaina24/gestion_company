@@ -50,7 +50,7 @@ export class UserService {
     options: FindAllUsersOptions = {},
   ): Promise<PaginatedUsersResult> {
     const { page = 1, limit = 10, search = '', roles } = options;
-    console.log(roles);
+    // console.log(roles);
     const validatedPage = Math.max(1, page);
     const validatedLimit = Math.min(Math.max(1, limit), 100);
     const skip = (validatedPage - 1) * validatedLimit;
