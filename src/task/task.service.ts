@@ -12,19 +12,26 @@ import { Task, TaskDocument } from './schemas/task.schema';
 import { User } from 'src/user/schemas/user.schema';
 import { PaginationOptions } from 'src/interfaces/pagination-options.interface';
 import { PaginationResult } from 'src/interfaces/pagination-result.interface';
+import { TaskGateway } from './task.gateway';
 
 @Injectable()
 export class TaskService {
   constructor(
     @InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>,
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly taskGateway: TaskGateway,
   ) {}
 
   async create(userId: string, createTaskDto: CreateTaskDto): Promise<Task> {
     const user = await this.userModel.findById(userId);
     if (!user) throw new NotFoundException('Utilisateur introuvable');
 
-    return this.taskModel.create({ ...createTaskDto, user: userId });
+    const task = await this.taskModel.create({
+      ...createTaskDto,
+      user: userId,
+    });
+    this.taskGateway.taskCreated(task);
+    return task;
   }
 
   async findAllForUser(
@@ -97,7 +104,7 @@ export class TaskService {
     if (!task) {
       throw new ForbiddenException('Vous n’avez pas accès à cette tâche.');
     }
-
+    this.taskGateway.taskUpdated(task);
     return task;
   }
   async remove(taskId: string, userId: string): Promise<{ message: string }> {
@@ -113,7 +120,7 @@ export class TaskService {
         'Suppression interdite : tâche non trouvée ou accès refusé.',
       );
     }
-
+    this.taskGateway.taskDeleted(taskId);
     return { message: 'Tâche supprimée avec succès.' };
   }
 }
