@@ -9,6 +9,7 @@ import { UserProfileModule } from './user-profile/user-profile.module';
 import { UserIdMiddleware } from './middlewares/user-id.middleware';
 import { EmploymentInfoModule } from './employment-info/employment-info.module';
 import { TaskModule } from './task/task.module';
+import { DepartmentModule } from './department/department.module';
 
 @Module({
   controllers: [AppController],
@@ -21,6 +22,7 @@ import { TaskModule } from './task/task.module';
     UserProfileModule,
     EmploymentInfoModule,
     TaskModule,
+    DepartmentModule,
   ],
 })
 export class AppModule {
