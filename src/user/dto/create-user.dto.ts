@@ -6,6 +6,8 @@ import {
   IsArray,
   ArrayNotEmpty,
   IsString,
+  IsMongoId,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -33,4 +35,15 @@ export class CreateUserDto {
     message: 'Rôle invalide',
   })
   roles: ('manager' | 'admin' | 'employee')[];
+  @IsMongoId()
+  @IsOptional()
+  departmentId?: string;
+
+  @IsMongoId()
+  @IsOptional()
+  serviceId?: string;
+
+  @IsMongoId()
+  @IsOptional()
+  managerId?: string;
 }

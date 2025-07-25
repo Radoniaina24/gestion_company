@@ -1,6 +1,6 @@
 // src/user/schemas/user.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 export type UserDocument = User & Document;
@@ -45,6 +45,15 @@ export class User {
     default: ['employee'],
   })
   roles: ('manager' | 'admin' | 'employee')[];
+
+  @Prop({ type: Types.ObjectId, ref: 'Department' })
+  departmentId: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Service' })
+  serviceId: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  managerId: Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
