@@ -23,7 +23,6 @@ export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
   @Post()
-  @Post()
   @Roles('admin', 'manager')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() dto: CreateDepartmentDto) {

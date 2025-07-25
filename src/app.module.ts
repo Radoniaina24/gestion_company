@@ -10,6 +10,7 @@ import { UserIdMiddleware } from './middlewares/user-id.middleware';
 import { EmploymentInfoModule } from './employment-info/employment-info.module';
 import { TaskModule } from './task/task.module';
 import { DepartmentModule } from './department/department.module';
+import { ServiceModule } from './service/service.module';
 
 @Module({
   controllers: [AppController],
@@ -23,6 +24,7 @@ import { DepartmentModule } from './department/department.module';
     EmploymentInfoModule,
     TaskModule,
     DepartmentModule,
+    ServiceModule,
   ],
 })
 export class AppModule {
