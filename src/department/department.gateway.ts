@@ -1,25 +1,35 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
 import { Department } from './schemas/department.schema';
+import {
+  WebSocketGateway,
+  WebSocketServer,
+  OnGatewayInit,
+} from '@nestjs/websockets';
+import { Server } from 'socket.io';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: {
     origin: '*',
   },
 })
-export class DepartmentGateway {
-  @WebSocketServer()
-  server: Server;
+export class DepartmentGateway implements OnGatewayInit {
+  @WebSocketServer() server: Server;
+  private logger: Logger = new Logger('DepartmentGateway');
 
-  emitDepartmentCreated(department: Department) {
-    this.server.emit('department.created', department);
+  afterInit(server: Server) {
+    this.logger.log('WebSocket initialisé');
   }
 
-  emitDepartmentUpdated(department: Department) {
-    this.server.emit('department.updated', department);
+  // Méthodes pour émettre des événements
+  departmentCreated(department: Department) {
+    this.server.emit('departmentCreated', department);
   }
 
-  emitDepartmentDeleted(departmentId: string) {
-    this.server.emit('department.deleted', { id: departmentId });
+  departmentUpdated(department: Department) {
+    this.server.emit('departmentUpdated', department);
+  }
+
+  departmentDeleted(departmentId: string) {
+    this.server.emit('departmentDeleted', departmentId);
   }
 }

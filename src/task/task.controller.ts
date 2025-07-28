@@ -36,7 +36,7 @@ export class TaskController {
       const task = await this.taskService.create(userId, createTaskDto);
       return res
         .status(HttpStatus.CREATED)
-        .json({ message: 'Tâche créée avec succès.', data: task });
+        .json({ message: 'Tâche créé avec succès.', data: task });
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         message: error.message || 'Erreur lors de la création de la tâche.',

@@ -103,7 +103,7 @@ export class UserController {
     try {
       const user = await this.userService.update(id, updateUserDto);
       res.status(HttpStatus.CREATED).json({
-        message: 'Utilisateur mise à jour avec succès',
+        message: 'Utilisateur mis à jour avec succès',
         user,
       });
     } catch (error) {

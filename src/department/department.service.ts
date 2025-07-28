@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Department, DepartmentDocument } from './schemas/department.schema';
 import { Model } from 'mongoose';
@@ -15,13 +20,30 @@ export class DepartmentService {
   ) {}
 
   async create(dto: CreateDepartmentDto): Promise<Department> {
-    const department = await this.departmentModel.create(dto);
-    this.gateway.emitDepartmentCreated(department);
-    return department;
+    try {
+      dto.name = dto.name.toLowerCase().trim();
+      const department = await this.departmentModel.create(dto);
+      this.gateway.departmentCreated(department);
+      return department;
+    } catch (error) {
+      if (error.code === 11000 && error.keyPattern?.name) {
+        throw new ConflictException(
+          'Un département avec ce nom existe déjà (insensible à la casse).',
+        );
+      }
+      throw new InternalServerErrorException(
+        'Erreur lors de la création du département.',
+      );
+    }
   }
 
-  async findAll(): Promise<Department[]> {
-    return this.departmentModel.find().sort({ name: 1 }).exec();
+  async findAll(search?: string): Promise<Department[]> {
+    const filter: Record<string, any> = {};
+
+    if (search) {
+      filter.name = { $regex: new RegExp(search, 'i') };
+    }
+    return this.departmentModel.find(filter).sort({ name: 1 }).exec();
   }
 
   async findOne(id: string): Promise<Department> {
@@ -38,7 +60,7 @@ export class DepartmentService {
     });
     if (!department)
       throw new NotFoundException(`Département avec l'id ${id} introuvable`);
-    this.gateway.emitDepartmentUpdated(department);
+    this.gateway.departmentUpdated(department);
     return department;
   }
 
@@ -46,6 +68,6 @@ export class DepartmentService {
     const deleted = await this.departmentModel.findByIdAndDelete(id);
     if (!deleted)
       throw new NotFoundException(`Département avec l'id ${id} introuvable`);
-    this.gateway.emitDepartmentDeleted(id);
+    this.gateway.departmentDeleted(id);
   }
 }
